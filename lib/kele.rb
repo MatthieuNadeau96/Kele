@@ -14,7 +14,17 @@ class Kele
     
     def get_me
         response = self.class.get(api_url("users/me"), headers: { "authorization" => @auth_token })
-        body = JSON.parse(response.body)
+        @user_data = JSON.parse(response.body)
+        # @user_data.keys.each do |key|
+        #     self.class.send(:define_method, key.to_sym) do 
+        #         @user_data[key]
+        #     end 
+        # end
+    end
+    
+    def get_mentor_availability(mentor_id)
+        response = self.class.get(api_url("mentors/#{mentor_id}/student_availability"), headers: {"authorization" => @auth_token })
+        @mentor_availability = JSON.parse(response.body)
     end
     
     private
