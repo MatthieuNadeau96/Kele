@@ -37,6 +37,16 @@ class Kele
         @checkpoint = JSON.parse(response.body)
     end
     
+    def get_messages(page)
+        response = self.class.get(api_url("message_threads?page=#{page}"), headers: { "authorization" => @auth_token })
+        @get_messages = JSON.parse(response.body)
+    end
+    
+    def create_messages(recipient_id, subject, message)
+        response = self.class.post(api_url("messages"), body: { "user_id": id, "recipient_id": recipient_id, "subject": subject, "stripped-text": message }, headers: {"authorization" => @auth_token })
+        puts response
+    end
+    
     private
     
     def api_url(endpoint)
